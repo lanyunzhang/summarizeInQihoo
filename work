@@ -1,0 +1,23 @@
+1. BBS 的 MD5 分片算法 Md5IncPartitioner.jar ，程序路径：/home/spiderdm/dev/lanyun/src/com/qihoo/search/hadoop/Md5IncPartitioner.java
+2. BBS 数据生产:
+		BBSDIR=/home/s/apps/qss/bbs/tic
+		小时数据生产：$BBSDIR/hourly/json.rank.sh
+		天级补充生产：$BBSDIR/hourly/json.rank-patch.sh
+		BBS 数据删除：$BBSDIR/daily/md5.clean.join.sh
+		目前推送的是 bjdt 集群的 bbs.v0002 版本
+3. 数据推送程序中用到的 rename.jar,程序路径如下：/home/spiderdm/dev/lanyun/src/com/qihoo/search/hadoop/file/Rename.java
+4. 用于 haze 推送程序23：58 未完成或者 22:00 未开始的报警，程序路径如下:
+	/home/s/apps/qss/mrjobstat/timeout/check.sh
+	/home/s/apps/qss/mrjobstat/timeout/checkHaze.sh
+5. 统计慢速线任务每天的数据量，生成网页，路径：/home/s/apps/qss/mrjobstat/bin/hourly.sh
+6. p02.se.zzbc.qihoo.net: 快速线小时统计和日统计
+		程序路径：DIR=/home/s/apps/dxue.app/line2/counter
+	 	redis-server: $DIR/bin/redis-server $DIR/config/redis.conf --port 6380
+		用于监控redis-server 进程意外停止之后的重启脚本：$DIR/bin/checkRedis.sh
+		用于每10分钟生成一次html的脚本 $DIR/bin/HCGenerateHtml.pl
+7. 生成所需的数据格式，给小库打标签，在 qssfilter 与 robots 中调用
+		程序路径：ENGDIR=/home/s/apps/qss/hbase/eng
+		滚动全量分桶分片算法：$ENGDIR/eng-partitions.jar
+		根据 url 或者 md5 来得到分桶的工具，路径：/home/spiderdm/dev/lanyun/eng-partition/getPartition.sh
+		目前在推送的是 gzst / zzbc 的 vtest 版本
+

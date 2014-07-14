@@ -59,6 +59,7 @@
 		随着tic的生产，会把新增数据目录写入 /home/s/tmp/v2/tac/qss.filelist.prep , 删除数据的目录写入 
 		/home/s/tmp/v2/tac/qss.filelist.bad , 然后调用 /home/s/apps/qss/v2/tac/zk-prep.sh 按照新的分桶
 		算法对新增数据重新分桶，并把结果写入 /home/s/tmp/v2/tac/qss.filelist,进行推送。
+		重新分桶程序: /home/spiderdm/dev/lanyun/eng-partition/run.sh
 		目前推送的是 gzst / zzbc 的vtest 版本，500个分桶。
 
 13. 全量的死链扫描

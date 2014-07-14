@@ -28,7 +28,6 @@
 		程序路径：ENGDIR=/home/s/apps/qss/hbase/eng
 		滚动全量分桶分片算法：$ENGDIR/eng-partitions.jar
 		根据 url 或者 md5 来得到分桶的工具，路径：/home/spiderdm/dev/lanyun/eng-partition/getPartition.sh
-		目前在推送的是 gzst / zzbc 集群的 vtest 版本
 
 8. 域名转化自动化
 		每小时检测一次，是否需要进行域名自动化，程序路径：DSDIR=/home/s/apps/qss/help/domainSwitch
@@ -55,3 +54,16 @@
 11. 识别引擎中的乱码文章
 		程序路径：/home/spiderdm/dev/lanyun/messy
 		根据不常见字的比率来判断文章是否是乱码，可能会受到繁体字文章的干扰。
+
+12. 滚动增量生产推送
+		随着tic的生产，会把新增数据目录写入 /home/s/tmp/v2/tac/qss.filelist.prep , 删除数据的目录写入 
+		/home/s/tmp/v2/tac/qss.filelist.bad , 然后调用 /home/s/apps/qss/v2/tac/zk-prep.sh 按照新的分桶
+		算法对新增数据重新分桶，并把结果写入 /home/s/tmp/v2/tac/qss.filelist,进行推送。
+		目前推送的是 gzst / zzbc 的vtest 版本，500个分桶。
+
+13. 全量的死链扫描
+		程序启动路径：/home/s/apps/qss/v2/daily/scan.deadlink.v2.sh ，java 文件已经并入 hbase-mr-tools.jar 
+		扫描死链：/home/spiderdm/dev/lab/hbase-mr-tools/src/com/qihoo/search/hbase/v2/ScanDeadPage.java
+		死链复活：/home/spiderdm/dev/lab/hbase-mr-tools/src/com/qihoo/search/hbase/v2/DeadlinkResurrection.java
+		目前生产的是 ticver=140317 这一个版本的数据。
+

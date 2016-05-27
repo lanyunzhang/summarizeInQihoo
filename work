@@ -1,70 +1,73 @@
-1. BBS 的 MD5 分片算法 Md5IncPartitioner.jar ，程序路径：/home/spiderdm/dev/lanyun/src/com/qihoo/search/hadoop/Md5IncPartitioner.java
-
-2. BBS 数据生产:
-		BBSDIR=/home/s/apps/qss/bbs/tic
-		小时数据生产：$BBSDIR/hourly/json.rank.sh
-			- 从每天的增量数据中，产出 filetype 是 bbs 或者 blog 的数据，调用陈强分类程序进行分类。
-			
-		天级补充生产：$BBSDIR/hourly/json.rank-patch.sh
-		BBS 数据删除：$BBSDIR/daily/md5.clean.join.sh
-		目前推送的是 bjdt 集群的 bbs.v0002 版本
-
-3. 数据推送程序中用到的 rename.jar,程序路径如下：/home/spiderdm/dev/lanyun/src/com/qihoo/search/hadoop/file/Rename.java
-
-4. 用于 haze 推送程序23：58 未完成或者 22:00 未开始的报警，程序路径如下:
-	/home/s/apps/qss/mrjobstat/timeout/check.sh
-	/home/s/apps/qss/mrjobstat/timeout/checkHaze.sh
-
-5. 统计慢速线任务每天的数据量，生成网页，路径：/home/s/apps/qss/mrjobstat/bin/hourly.sh
-
-6. p02.se.zzbc.qihoo.net: 快速线小时统计和日统计
-		程序路径：DIR=/home/s/apps/dxue.app/line2/counter
-	 	redis-server: $DIR/bin/redis-server $DIR/config/redis.conf --port 6380
-		用于监控redis-server 进程意外停止之后的重启脚本：$DIR/bin/checkRedis.sh
-		用于每10分钟生成一次html的脚本 $DIR/bin/HCGenerateHtml.pl
-		redis.pid ，dump.rdb ,appendonly.aof 数据的存放路径为 /home/s/var/dxue.app/line2/counter
-
-7. 生成所需的数据格式，给小库打标签，在 qssfilter 与 robots 中调用
-		程序路径：ENGDIR=/home/s/apps/qss/hbase/eng
-		滚动全量分桶分片算法：$ENGDIR/eng-partitions.jar
-		根据 url 或者 md5 来得到分桶的工具，路径：/home/spiderdm/dev/lanyun/eng-partition/getPartition.sh
-
-8. 域名转化自动化
-		每小时检测一次，是否需要进行域名自动化，程序路径：DSDIR=/home/s/apps/qss/help/domainSwitch
-		$DSDIR/domainSwitch.jar ，封装了 outer.scan.text.by.version.sh 用到的 inputformat
-		修改 TextTableInputFormat 让程序支持 rangefile
-		路径：/home/spiderdm/dev/lanyun/src/com/qihoo/search/hadoop/hbase/TextTableInputFormat.java
-		目前，从归一化规则预上线到推送删除新增指令的过程实现了自动化，但肖康拷贝完成到给库中数据打标签
-		还需要手动触发。
-
-9. 推送历史查询工具，根据一个 URL 或者 MD5 来进行推送历史记录查询
-		程序路径：/home/spiderdm/dev/lanyun/autoScript/grep/search.sh
-		未实现数据记录的全局排序
-	
-10. web 平台
-		目前实现的功能如下：
-			- hadoop tools , 可以修改 job 的优先级或者杀死 job
-			- 日常生产数据的图表显示
-			- haze 推送数据查询，可以根据版本，日期或者集群来进行推送查询
-			- bbs xjson  数据自动补充生产
-		地址：http://182.118.40.247:8003/polls/htools/
-		django + mysql 开发，程序目录：/home/spiderdm/dev/lanyun/peanut , 程序中调用的后台脚本目录：
-		/home/spiderdm/dev/lanyun/autoScript
-
-11. 识别引擎中的乱码文章
-		程序路径：/home/spiderdm/dev/lanyun/messy
-		根据不常见字的比率来判断文章是否是乱码，可能会受到繁体字文章的干扰。
-
-12. 滚动增量生产推送
-		随着tic的生产，会把新增数据目录写入 /home/s/tmp/v2/tac/qss.filelist.prep , 删除数据的目录写入 
-		/home/s/tmp/v2/tac/qss.filelist.bad , 然后调用 /home/s/apps/qss/v2/tac/zk-prep.sh 按照新的分桶
-		算法对新增数据重新分桶，并把结果写入 /home/s/tmp/v2/tac/qss.filelist,进行推送。
-		重新分桶程序: /home/spiderdm/dev/lanyun/eng-partition/run.sh
-		目前推送的是 gzst / zzbc 的vtest 版本，500个分桶。
-
-13. 全量的死链扫描
-		程序启动路径：/home/s/apps/qss/v2/daily/scan.deadlink.v2.sh ，java 文件已经并入 hbase-mr-tools.jar 
-		扫描死链：/home/spiderdm/dev/lab/hbase-mr-tools/src/com/qihoo/search/hbase/v2/ScanDeadPage.java
-		死链复活：/home/spiderdm/dev/lab/hbase-mr-tools/src/com/qihoo/search/hbase/v2/DeadlinkResurrection.java
-		目前生产的是 ticver=140317 这一个版本的数据。
-
+MS4gQkJTIOeahCBNRDUg5YiG54mH566X5rOVIE1kNUluY1BhcnRpdGlvbmVyLmphciDvvIznqIvl
+uo/ot6/lvoTvvJovaG9tZS9zcGlkZXJkbS9kZXYvbGFueXVuL3NyYy9jb20vcWlob28vc2VhcmNo
+L2hhZG9vcC9NZDVJbmNQYXJ0aXRpb25lci5qYXZhCgoyLiBCQlMg5pWw5o2u55Sf5LqnOgoJCUJC
+U0RJUj0vaG9tZS9zL2FwcHMvcXNzL2Jicy90aWMKCQnlsI/ml7bmlbDmja7nlJ/kuqfvvJokQkJT
+RElSL2hvdXJseS9qc29uLnJhbmsuc2gKCQkJLSDku47mr4/lpKnnmoTlop7ph4/mlbDmja7kuK3v
+vIzkuqflh7ogZmlsZXR5cGUg5pivIGJicyDmiJbogIUgYmxvZyDnmoTmlbDmja7vvIzosIPnlKjp
+mYjlvLrliIbnsbvnqIvluo/ov5vooYzliIbnsbvjgIIKCQkJCgkJ5aSp57qn6KGl5YWF55Sf5Lqn
+77yaJEJCU0RJUi9ob3VybHkvanNvbi5yYW5rLXBhdGNoLnNoCgkJQkJTIOaVsOaNruWIoOmZpO+8
+miRCQlNESVIvZGFpbHkvbWQ1LmNsZWFuLmpvaW4uc2gKCQnnm67liY3mjqjpgIHnmoTmmK8gYmpk
+dCDpm4bnvqTnmoQgYmJzLnYwMDAyIOeJiOacrAoKMy4g5pWw5o2u5o6o6YCB56iL5bqP5Lit55So
+5Yiw55qEIHJlbmFtZS5qYXIs56iL5bqP6Lev5b6E5aaC5LiL77yaL2hvbWUvc3BpZGVyZG0vZGV2
+L2xhbnl1bi9zcmMvY29tL3FpaG9vL3NlYXJjaC9oYWRvb3AvZmlsZS9SZW5hbWUuamF2YQoKNC4g
+55So5LqOIGhhemUg5o6o6YCB56iL5bqPMjPvvJo1OCDmnKrlrozmiJDmiJbogIUgMjI6MDAg5pyq
+5byA5aeL55qE5oql6K2m77yM56iL5bqP6Lev5b6E5aaC5LiLOgoJL2hvbWUvcy9hcHBzL3Fzcy9t
+cmpvYnN0YXQvdGltZW91dC9jaGVjay5zaAoJL2hvbWUvcy9hcHBzL3Fzcy9tcmpvYnN0YXQvdGlt
+ZW91dC9jaGVja0hhemUuc2gKCjUuIOe7n+iuoeaFoumAn+e6v+S7u+WKoeavj+WkqeeahOaVsOaN
+rumHj++8jOeUn+aIkOe9kemhte+8jOi3r+W+hO+8mi9ob21lL3MvYXBwcy9xc3MvbXJqb2JzdGF0
+L2Jpbi9ob3VybHkuc2gKCjYuIHAwMi5zZS56emJjLnFpaG9vLm5ldDog5b+r6YCf57q/5bCP5pe2
+57uf6K6h5ZKM5pel57uf6K6hCgkJ56iL5bqP6Lev5b6E77yaRElSPS9ob21lL3MvYXBwcy9keHVl
+LmFwcC9saW5lMi9jb3VudGVyCgkgCXJlZGlzLXNlcnZlcjogJERJUi9iaW4vcmVkaXMtc2VydmVy
+ICRESVIvY29uZmlnL3JlZGlzLmNvbmYgLS1wb3J0IDYzODAKCQnnlKjkuo7nm5HmjqdyZWRpcy1z
+ZXJ2ZXIg6L+b56iL5oSP5aSW5YGc5q2i5LmL5ZCO55qE6YeN5ZCv6ISa5pys77yaJERJUi9iaW4v
+Y2hlY2tSZWRpcy5zaAoJCeeUqOS6juavjzEw5YiG6ZKf55Sf5oiQ5LiA5qyhaHRtbOeahOiEmuac
+rCAkRElSL2Jpbi9IQ0dlbmVyYXRlSHRtbC5wbAoJCXJlZGlzLnBpZCDvvIxkdW1wLnJkYiAsYXBw
+ZW5kb25seS5hb2Yg5pWw5o2u55qE5a2Y5pS+6Lev5b6E5Li6IC9ob21lL3MvdmFyL2R4dWUuYXBw
+L2xpbmUyL2NvdW50ZXIKCjcuIOeUn+aIkOaJgOmcgOeahOaVsOaNruagvOW8j++8jOe7meWwj+W6
+k+aJk+agh+etvu+8jOWcqCBxc3NmaWx0ZXIg5LiOIHJvYm90cyDkuK3osIPnlKgKCQnnqIvluo/o
+t6/lvoTvvJpFTkdESVI9L2hvbWUvcy9hcHBzL3Fzcy9oYmFzZS9lbmcKCQnmu5rliqjlhajph4/l
+iIbmobbliIbniYfnrpfms5XvvJokRU5HRElSL2VuZy1wYXJ0aXRpb25zLmphcgoJCeagueaNriB1
+cmwg5oiW6ICFIG1kNSDmnaXlvpfliLDliIbmobbnmoTlt6XlhbfvvIzot6/lvoTvvJovaG9tZS9z
+cGlkZXJkbS9kZXYvbGFueXVuL2VuZy1wYXJ0aXRpb24vZ2V0UGFydGl0aW9uLnNoCgo4LiDln5/l
+kI3ovazljJboh6rliqjljJYKCQnmr4/lsI/ml7bmo4DmtYvkuIDmrKHvvIzmmK/lkKbpnIDopoHo
+v5vooYzln5/lkI3oh6rliqjljJbvvIznqIvluo/ot6/lvoTvvJpEU0RJUj0vaG9tZS9zL2FwcHMv
+cXNzL2hlbHAvZG9tYWluU3dpdGNoCgkJJERTRElSL2RvbWFpblN3aXRjaC5qYXIg77yM5bCB6KOF
+5LqGIG91dGVyLnNjYW4udGV4dC5ieS52ZXJzaW9uLnNoIOeUqOWIsOeahCBpbnB1dGZvcm1hdAoJ
+CeS/ruaUuSBUZXh0VGFibGVJbnB1dEZvcm1hdCDorqnnqIvluo/mlK/mjIEgcmFuZ2VmaWxlCgkJ
+6Lev5b6E77yaL2hvbWUvc3BpZGVyZG0vZGV2L2xhbnl1bi9zcmMvY29tL3FpaG9vL3NlYXJjaC9o
+YWRvb3AvaGJhc2UvVGV4dFRhYmxlSW5wdXRGb3JtYXQuamF2YQoJCeebruWJje+8jOS7juW9kuS4
+gOWMluinhOWImemihOS4iue6v+WIsOaOqOmAgeWIoOmZpOaWsOWinuaMh+S7pOeahOi/h+eoi+Wu
+nueOsOS6huiHquWKqOWMlu+8jOS9huiCluW6t+aLt+i0neWujOaIkOWIsOe7meW6k+S4reaVsOaN
+ruaJk+agh+etvgoJCei/mOmcgOimgeaJi+WKqOinpuWPkeOAggoKOS4g5o6o6YCB5Y6G5Y+y5p+l
+6K+i5bel5YW377yM5qC55o2u5LiA5LiqIFVSTCDmiJbogIUgTUQ1IOadpei/m+ihjOaOqOmAgeWO
+huWPsuiusOW9leafpeivogoJCeeoi+W6j+i3r+W+hO+8mi9ob21lL3NwaWRlcmRtL2Rldi9sYW55
+dW4vYXV0b1NjcmlwdC9ncmVwL3NlYXJjaC5zaAoJCeacquWunueOsOaVsOaNruiusOW9leeahOWF
+qOWxgOaOkuW6jwoJCjEwLiB3ZWIg5bmz5Y+wCgkJ55uu5YmN5a6e546w55qE5Yqf6IO95aaC5LiL
+77yaCgkJCS0gaGFkb29wIHRvb2xzICwg5Y+v5Lul5L+u5pS5IGpvYiDnmoTkvJjlhYjnuqfmiJbo
+gIXmnYDmrbsgam9iCgkJCS0g5pel5bi455Sf5Lqn5pWw5o2u55qE5Zu+6KGo5pi+56S6CgkJCS0g
+aGF6ZSDmjqjpgIHmlbDmja7mn6Xor6LvvIzlj6/ku6XmoLnmja7niYjmnKzvvIzml6XmnJ/miJbo
+gIXpm4bnvqTmnaXov5vooYzmjqjpgIHmn6Xor6IKCQkJLSBiYnMgeGpzb24gIOaVsOaNruiHquWK
+qOihpeWFheeUn+S6pwoJCeWcsOWdgO+8mmh0dHA6Ly8xODIuMTE4LjQwLjI0Nzo4MDAzL3BvbGxz
+L2h0b29scy8KCQlkamFuZ28gKyBteXNxbCDlvIDlj5HvvIznqIvluo/nm67lvZXvvJovaG9tZS9z
+cGlkZXJkbS9kZXYvbGFueXVuL3BlYW51dCAsIOeoi+W6j+S4reiwg+eUqOeahOWQjuWPsOiEmuac
+rOebruW9le+8mgoJCS9ob21lL3NwaWRlcmRtL2Rldi9sYW55dW4vYXV0b1NjcmlwdAoKMTEuIOiv
+huWIq+W8leaTjuS4reeahOS5seeggeaWh+eroAoJCeeoi+W6j+i3r+W+hO+8mi9ob21lL3NwaWRl
+cmRtL2Rldi9sYW55dW4vbWVzc3kKCQnmoLnmja7kuI3luLjop4HlrZfnmoTmr5TnjofmnaXliKTm
+lq3mlofnq6DmmK/lkKbmmK/kubHnoIHvvIzlj6/og73kvJrlj5fliLDnuYHkvZPlrZfmlofnq6Dn
+moTlubLmibDjgIIKCjEyLiDmu5rliqjlop7ph4/nlJ/kuqfmjqjpgIEKCQnpmo/nnYB0aWPnmoTn
+lJ/kuqfvvIzkvJrmiormlrDlop7mlbDmja7nm67lvZXlhpnlhaUgL2hvbWUvcy90bXAvdjIvdGFj
+L3Fzcy5maWxlbGlzdC5wcmVwICwg5Yig6Zmk5pWw5o2u55qE55uu5b2V5YaZ5YWlIAoJCS9ob21l
+L3MvdG1wL3YyL3RhYy9xc3MuZmlsZWxpc3QuYmFkICwg54S25ZCO6LCD55SoIC9ob21lL3MvYXBw
+cy9xc3MvdjIvdGFjL3prLXByZXAuc2gg5oyJ54Wn5paw55qE5YiG5qG2CgkJ566X5rOV5a+55paw
+5aKe5pWw5o2u6YeN5paw5YiG5qG277yM5bm25oqK57uT5p6c5YaZ5YWlIC9ob21lL3MvdG1wL3Yy
+L3RhYy9xc3MuZmlsZWxpc3Qs6L+b6KGM5o6o6YCB44CCCgkJ6YeN5paw5YiG5qG256iL5bqPOiAv
+aG9tZS9zcGlkZXJkbS9kZXYvbGFueXVuL2VuZy1wYXJ0aXRpb24vcnVuLnNoCgkJ55uu5YmN5o6o
+6YCB55qE5pivIGd6c3QgLyB6emJjIOeahHZ0ZXN0IOeJiOacrO+8jDUwMOS4quWIhuahtuOAggoK
+MTMuIOWFqOmHj+eahOatu+mTvuaJq+aPjwoJCeeoi+W6j+WQr+WKqOi3r+W+hO+8mi9ob21lL3Mv
+YXBwcy9xc3MvdjIvZGFpbHkvc2Nhbi5kZWFkbGluay52Mi5zaCDvvIxqYXZhIOaWh+S7tuW3sue7
+j+W5tuWFpSBoYmFzZS1tci10b29scy5qYXIgCgkJ5omr5o+P5q276ZO+77yaL2hvbWUvc3BpZGVy
+ZG0vZGV2L2xhYi9oYmFzZS1tci10b29scy9zcmMvY29tL3FpaG9vL3NlYXJjaC9oYmFzZS92Mi9T
+Y2FuRGVhZFBhZ2UuamF2YQoJCeatu+mTvuWkjea0u++8mi9ob21lL3NwaWRlcmRtL2Rldi9sYWIv
+aGJhc2UtbXItdG9vbHMvc3JjL2NvbS9xaWhvby9zZWFyY2gvaGJhc2UvdjIvRGVhZGxpbmtSZXN1
+cnJlY3Rpb24uamF2YQoJCeebruWJjeeUn+S6p+eahOaYryB0aWN2ZXI9MTQwMzE3IOi/meS4gOS4
+queJiOacrOeahOaVsOaNruOAggoK
